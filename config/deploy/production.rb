@@ -6,7 +6,7 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-
+server 'sign_production', user: 'ubuntu', roles: %w{app db web}
 
 
 # role-based syntax
@@ -20,7 +20,9 @@
 # role :app, %w{deploy@example.com}, my_property: :my_value
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
-
+role :app, %w{sign_production}
+role :web, %w{sign_production}
+role :db,  %w{sign_production}
 
 
 # Configuration
