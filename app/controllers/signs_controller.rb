@@ -10,7 +10,7 @@ class SignsController < ApplicationController
     %x(/opt/cprocsp/bin/amd64/cryptcp -signf -dir "#{path}" -cert -detached -thumbprint "#{ENV['THUMBPRINT']}" -pin "#{ENV['PIN']}" "#{path}/#{filename}")
     sign = %x(cat "#{path}/#{filename}.sgn").gsub!(/\s+/, '')
     send_data({sign: sign}.to_json)
-    %x(rm "#{path}/#{filename}")
-    %x(rm "#{path}/#{filename}".sgn)
+#     %x(rm "#{path}/#{filename}")
+#     %x(rm "#{path}/#{filename}".sgn)
   end
 end
