@@ -11,7 +11,7 @@ class SignsController < ApplicationController
     %x(/opt/cprocsp/bin/amd64/csptest -sfsign -sign -detached -base64 -password "#{ENV['PIN']}" -in "#{path}/#{filename}" -out "#{path}/#{filename}.sig" -my "#{ENV['THUMBPRINT']}")
     sign = %x(cat "#{path}/#{filename}.sig").gsub!(/\s+/, '')
     send_data({sign: sign}.to_json)
-    %x(rm "#{path}/#{filename}")
-    %x(rm "#{path}/#{filename}".sig)
+#     %x(rm "#{path}/#{filename}")
+#     %x(rm "#{path}/#{filename}".sig)
   end
 end
