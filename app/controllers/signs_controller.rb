@@ -8,7 +8,7 @@ class SignsController < ApplicationController
     %x(mkdir -p "#{path}")
     %x(echo "#{header_payload}" >> "#{path}/#{filename}")
     %x(/opt/cprocsp/bin/amd64/cryptcp -signf -dir "#{path}" -cert -cadestsa http://testca.cryptopro.ru/tsp/tsp.srf -detached -thumbprint "#{ENV['THUMBPRINT']}" -pin "#{ENV['PIN']}" "#{path}/#{filename}")
-    sign = %x(cat "#{path}/#{filename}.sgn").gsub!(/\s+/, '')
+    sign = %x(cat "#{path}/#{filename}.sgn").gsub!(\r\n, '')
     send_data({sign: sign}.to_json)
 #     %x(/opt/cprocsp/bin/amd64/csptest -sfsign -sign -add -base64 -detached -password "#{ENV['PIN']}" -in "#{path}/#{filename}" -out "#{path}/#{filename}.sig" -my "#{ENV['THUMBPRINT']}")
 #     sign = %x(cat "#{path}/#{filename}.sig").gsub!(/\s+/, '')
