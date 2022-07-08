@@ -9,7 +9,7 @@ class SignsController < ApplicationController
     if params[:message]
       %x(echo "#{header_payload}" >> "#{path}/#{filename}")
     else
-      %x(echo "#{Base64.decode64(header_payload)}" >> "#{path}/#{filename}")
+      File.open("#{path}/#{filename}", 'wb'){|f| f.write(Base64.decode64(header_payload))}
     end
     %x(/opt/cprocsp/bin/amd64/cryptcp -signf -dir "#{path}" -cert -detached -thumbprint "#{ENV['THUMBPRINT']}" -pin "#{ENV['PIN']}" "#{path}/#{filename}")
     sign = %x(cat "#{path}/#{filename}.sgn").gsub!(/\s+/, '')
