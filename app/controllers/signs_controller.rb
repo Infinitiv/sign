@@ -18,4 +18,19 @@ class SignsController < ApplicationController
     %x(rm "#{path}/#{filename}")
     %x(rm "#{path}/#{filename}".sgn)
   end
+  
+  def check
+    path = "/home/ubuntu/signs"
+    file = params[:file]
+    sign = params[:sign]
+    filename = Digest::MD5.hexdigest(file)
+    signname = Digest::MD5.hexdigest(sign)
+    %x(mkdir -p "#{path}")
+    File.open("#{path}/#{filename}", 'wb'){|f| f.write(Base64.decode64(file))}
+    File.open("#{path}/#{signname}.sgn", 'wb'){|f| f.write(Base64.decode64(sign))}
+    result = %x(/opt/cprocsp/bin/amd64/cryptcp -vsign "#{path}/#{filename}").split("\n")
+    send_data({result: result[8], author: result[7]}.to_json)
+    %x(rm "#{path}/#{filename}")
+    %x(rm "#{path}/#{signname}.sgn")
+  end
 end
